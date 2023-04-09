@@ -3,10 +3,12 @@ package com.studentDemo.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.studentDemo.entity.Student;
+import com.studentDemo.payload.StudentDto;
 import com.studentDemo.repository.StudentRepository;
 
 @Service
@@ -14,10 +16,16 @@ public class StudentService {
 	
 	@Autowired
 	private StudentRepository studentRepo;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 
-	public Student insertStudent(Student student) {
+	public StudentDto insertStudent(StudentDto studentDto) {
+		Student student=mapToEntity(studentDto);
 		Student student1 = studentRepo.save(student);
-		return student1;
+		StudentDto studentResponse=mapToDto(student1);
+		
+		return studentResponse;
 		
 	}
 	
@@ -47,5 +55,16 @@ public class StudentService {
 	
 	public void deleteStudent(long id) {
 		studentRepo.deleteById(id);
+	}
+	
+	public StudentDto mapToDto(Student student) {
+		StudentDto studentDto= modelMapper.map(student, StudentDto.class);
+		return studentDto;
+	}
+	
+	public Student mapToEntity(StudentDto studentDto) {
+		Student student=modelMapper.map(studentDto, Student.class);
+		return student;
+		
 	}
 }

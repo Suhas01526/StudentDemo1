@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.studentDemo.entity.Student;
+import com.studentDemo.payload.StudentDto;
 import com.studentDemo.service.StudentService;
 
 @RestController
@@ -23,10 +24,10 @@ public class StudentController {
 	@Autowired
 	private StudentService studentService;
 	@PostMapping("/insertStudent")
-	public ResponseEntity<Student> insertStudent(@RequestBody Student student){
+	public ResponseEntity<StudentDto> insertStudent(@RequestBody StudentDto studentDto){
 		
-		Student student1=studentService.insertStudent(student);
-		return new ResponseEntity<Student>(student1,HttpStatus.CREATED);
+		StudentDto student1=studentService.insertStudent(studentDto);
+		return new ResponseEntity<StudentDto>(student1,HttpStatus.CREATED);
 	}
 	@GetMapping("/getAllStudent")
 	public List<Student> getAllStudent(){
